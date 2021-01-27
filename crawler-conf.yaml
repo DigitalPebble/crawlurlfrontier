@@ -10,7 +10,7 @@ config:
   topology.max.spout.pending: 100
   topology.debug: false
 
-  fetcher.threads.number: 100
+  fetcher.threads.number: 200
   
   # override the JVM parameters for the workers
   topology.worker.childopts: "-Xmx2g -Djava.net.preferIPv4Stack=true"
@@ -21,6 +21,8 @@ config:
 
   urlfrontier.max.urls.per.bucket: 3
   urlfrontier.max.buckets: 100
+
+  detect.charset.fast: true
 
   # metadata to transfer to the outlinks
   # used by Fetcher for redirections, sitemapparser, etc...
