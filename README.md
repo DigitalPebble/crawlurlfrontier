@@ -7,15 +7,13 @@ With Storm installed, you must first generate an uberjar:
 mvn clean package
 ```
 
-before submitting the topology using the storm command:
+Inject the seeds
 
-``` sh
-storm jar target/crawlurlfrontier-1.0-SNAPSHOT.jar com.dipe.urlfrontier.CrawlTopology -conf crawler-conf.yaml -local
+```
+java -cp ./target/crawlurlfrontier-1.0-SNAPSHOT.jar crawlercommons.urlfrontier.client.Client PutURLs seeds.txt 
 ```
 
-This will run the topology in local mode. Simply remove the '-local' to run the topology in distributed mode.
-
-You can also use Flux to do the same:
+before submitting the topology using the storm command:
 
 ``` sh
 storm jar target/crawlurlfrontier-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --local crawler.flux --sleep 86400000
