@@ -10,7 +10,7 @@ config:
   topology.max.spout.pending: 100
   topology.debug: false
 
-  fetcher.threads.number: 200
+  fetcher.threads.number: 100
   
   # override the JVM parameters for the workers
   topology.worker.childopts: "-Xmx2g -Djava.net.preferIPv4Stack=true"
@@ -19,7 +19,8 @@ config:
   topology.kryo.register:
     - com.digitalpebble.stormcrawler.Metadata
 
-  urlfrontier.max.urls.per.bucket: 3
+  urlfrontier.host: localhost
+  urlfrontier.max.urls.per.bucket: 1
   urlfrontier.max.buckets: 100
 
   detect.charset.fast: true
@@ -45,13 +46,18 @@ config:
   http.agent.url: "http://someorganization.com/"
   http.agent.email: "someone@someorganization.com"
 
+  http.store.headers: true
+
+  http.protocol.versions:
+  - "http/1.1"
+
   http.protocol.implementation: "com.digitalpebble.stormcrawler.protocol.okhttp.HttpProtocol"
   https.protocol.implementation: "com.digitalpebble.stormcrawler.protocol.okhttp.HttpProtocol"
 
   # The maximum number of bytes for returned HTTP response bodies.
   # The fetched page will be trimmed to 65KB in this case
   # Set -1 to disable the limit.
-  http.content.limit: 65536
+  http.content.limit: -1
 
   # FetcherBolt queue dump => comment out to activate
   # if a file exists on the worker machine with the corresponding port number
@@ -63,7 +69,7 @@ config:
 
   # revisit a page daily (value in minutes)
   # set it to -1 to never refetch a page
-  fetchInterval.default: 1440
+  fetchInterval.default: -1
 
   # revisit a page with a fetch error after 2 hours (value in minutes)
   # set it to -1 to never refetch a page

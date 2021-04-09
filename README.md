@@ -5,7 +5,7 @@ mvn clean package
 Inject the seeds
 
 ```
-java -cp ./target/crawlurlfrontier-1.0-SNAPSHOT.jar crawlercommons.urlfrontier.client.Client PutURLs seeds.txt 
+java -cp ./target/crawlurlfrontier-1.0-SNAPSHOT.jar crawlercommons.urlfrontier.client.Client PutURLs -f seeds.txt 
 ```
 
 before submitting the topology using the storm command:
