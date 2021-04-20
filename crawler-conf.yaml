@@ -7,10 +7,10 @@
 config: 
   topology.workers: 1
   topology.message.timeout.secs: 300
-  topology.max.spout.pending: 100
+  topology.max.spout.pending: 200
   topology.debug: false
 
-  fetcher.threads.number: 100
+  fetcher.threads.number: 200
   
   # override the JVM parameters for the workers
   topology.worker.childopts: "-Xmx2g -Djava.net.preferIPv4Stack=true"
@@ -20,7 +20,7 @@ config:
     - com.digitalpebble.stormcrawler.Metadata
 
   urlfrontier.host: localhost
-  urlfrontier.max.urls.per.bucket: 1
+  urlfrontier.max.urls.per.bucket: 3
   urlfrontier.max.buckets: 100
 
   detect.charset.fast: true
@@ -66,6 +66,8 @@ config:
 
   parsefilters.config.file: "parsefilters.json"
   urlfilters.config.file: "urlfilters.json"
+
+  jsoup.treat.non.html.as.error: false
 
   # revisit a page daily (value in minutes)
   # set it to -1 to never refetch a page

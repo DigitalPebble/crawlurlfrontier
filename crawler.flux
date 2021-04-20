@@ -18,10 +18,10 @@ components:
     configMethods:
       - name: "withPath"
         args:
-          - "/data/crawlurlfrontier/WARC"
+          - "s3a://urlfrontier-crawl-warc"
       - name: "withPrefix"
         args:
-          - "topDomains"
+          - "1MTopHosts"
 
   - id: "WARCFileRotationPolicy"
     className: "org.apache.storm.hdfs.bolt.rotation.FileSizeRotationPolicy"
@@ -49,6 +49,14 @@ spouts:
   - id: "spout"
     className: "com.digitalpebble.stormcrawler.urlfrontier.Spout"
     parallelism: 1
+
+  - id: "filespout"
+    className: "com.digitalpebble.stormcrawler.spout.FileSpout"
+    parallelism: 1
+    constructorArgs:
+      - "."
+      - "seeds.txt"
+      - true
 
 bolts:
   - id: "partitioner"
@@ -131,3 +139,13 @@ streams:
       type: FIELDS
       args: ["url"]
       streamId: "status"
+
+  - from: "filespout"
+    to: "status"
+    grouping:
+      streamId: "status"
+      type: CUSTOM
+      customClass:
+        className: "com.digitalpebble.stormcrawler.util.URLStreamGrouping"
+        constructorArgs:
+          - "byDomain"
