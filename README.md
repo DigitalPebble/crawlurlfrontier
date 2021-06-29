@@ -11,6 +11,15 @@ java -cp ./target/crawlurlfrontier-1.0-SNAPSHOT.jar crawlercommons.urlfrontier.c
 before submitting the topology using the storm command:
 
 ``` sh
-storm jar target/crawlurlfrontier-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --local crawler.flux --sleep 86400000
+storm jar target/crawlurlfrontier-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux crawler.flux
 ```
+
+If the cluster is on Docker
+
+```
+docker exec -it nimbus bash
+cd crawler
+storm jar target/crawlurlfrontier-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux crawler.flux
+```
+
 
