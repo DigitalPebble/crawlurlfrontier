@@ -10,7 +10,7 @@ includes:
       override: true
 
 config:
-  warc: {"fs.file.impl": "org.apache.hadoop.fs.RawLocalFileSystem"}
+  warc: {"fs.s3a.access.key": "INSERTKEYHERE", "fs.s3a.secret.key": "INSERTSECRETKEYHERE"}
 
 components:
   - id: "WARCFileNameFormat"
@@ -18,7 +18,7 @@ components:
     configMethods:
       - name: "withPath"
         args:
-          - "s3a://urlfrontier-crawl-warc"
+          - ""
       - name: "withPrefix"
         args:
           - "1MTopHosts"
@@ -55,7 +55,7 @@ spouts:
     parallelism: 1
     constructorArgs:
       - "."
-      - "seeds.txt"
+      - "top1M.hosts.commoncrawl"
       - true
 
 bolts:
@@ -85,6 +85,9 @@ bolts:
       - name: "withConfigKey"
         args:
           - "warc"
+      - name: "withFsUrl"
+        args:
+          - "s3a://urlfrontier-crawl-warc/"
   - id: "status"
     className: "com.digitalpebble.stormcrawler.urlfrontier.StatusUpdaterBolt"
     parallelism: 1

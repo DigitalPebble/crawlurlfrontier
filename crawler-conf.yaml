@@ -7,7 +7,7 @@
 config: 
   topology.workers: 1
   topology.message.timeout.secs: 300
-  topology.max.spout.pending: 200
+  topology.max.spout.pending: 500
   topology.debug: false
 
   fetcher.threads.number: 200
@@ -21,7 +21,7 @@ config:
 
   urlfrontier.host: localhost
   urlfrontier.max.urls.per.bucket: 3
-  urlfrontier.max.buckets: 100
+  urlfrontier.max.buckets: 200
 
   detect.charset.fast: true
 
