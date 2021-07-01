@@ -29,6 +29,12 @@ services:
     volumes:
       - data02:/usr/share/elasticsearch/data
 
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - 3000:3000
+
 volumes:
   data01:
     driver: local
