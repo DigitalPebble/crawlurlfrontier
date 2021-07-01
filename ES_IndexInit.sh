@@ -1,4 +1,4 @@
-ESHOST="http://192.168.1.1:9200"
+ESHOST="http://localhost:9200"
 ESCREDENTIALS="-u elastic:passwordhere"
 
 curl $ESCREDENTIALS -s -XDELETE "$ESHOST/metrics*/" >  /dev/null
