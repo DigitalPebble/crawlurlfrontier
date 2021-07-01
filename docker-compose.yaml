@@ -1,10 +1,6 @@
 version: '3.1'
 
 services:
-  zookeeper:
-    image: zookeeper
-    container_name: zookeeper
-    restart: always
 
   frontier:
     image: crawlercommons/url-frontier:0.2  
@@ -32,47 +28,6 @@ services:
       - 9200:9200
     volumes:
       - data02:/usr/share/elasticsearch/data
-
-  nimbus:
-    image: storm
-    container_name: nimbus
-    command: storm nimbus
-    volumes:
-     - ".:/crawler"
-    depends_on:
-      - zookeeper
-    restart: always
-
-  supervisor:
-    image: storm
-    container_name: supervisor
-    command: storm supervisor -c worker.childopts=-Xmx%HEAP-MEM%m
-    depends_on:
-      - nimbus
-      - zookeeper
-      - elastic
-    restart: always
-
-  ui:
-    image: storm
-    container_name: ui
-    command: storm ui
-    depends_on:
-      - nimbus
-    restart: always
-    ports:
-      - 8080:8080
-
-#  logviewer:
-#    image: storm
-#    container_name: logviewer
-#    command: storm logviewer
-#    depends_on:
-#      - nimbus
-#      - supervisor
-#    restart: always
-#    ports:
-#      - 8000:8000
 
 volumes:
   data01:
