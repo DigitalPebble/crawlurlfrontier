@@ -10,7 +10,7 @@ includes:
       override: true
 
 config:
-  warc: {"fs.s3a.access.key": "INSERTKEYHERE", "fs.s3a.secret.key": "INSERTSECRETKEYHERE"}
+  warc: {"fs.s3a.access.key": "${ENV-[AWS_ACCESS_KEY_ID]}", "fs.s3a.secret.key": "${ENV-[AWS_SECRET_ACCESS_KEY]}"}
 
 components:
   - id: "WARCFileNameFormat"
@@ -50,13 +50,13 @@ spouts:
     className: "com.digitalpebble.stormcrawler.urlfrontier.Spout"
     parallelism: 1
 
-  - id: "filespout"
-    className: "com.digitalpebble.stormcrawler.spout.FileSpout"
-    parallelism: 1
-    constructorArgs:
-      - "."
-      - "top1M.hosts.commoncrawl"
-      - true
+#  - id: "filespout"
+#    className: "com.digitalpebble.stormcrawler.spout.FileSpout"
+#    parallelism: 1
+#    constructorArgs:
+#      - "."
+#      - "top1M.hosts.commoncrawl"
+#      - true
 
 bolts:
   - id: "partitioner"
@@ -87,7 +87,7 @@ bolts:
           - "warc"
       - name: "withFsUrl"
         args:
-          - "s3a://urlfrontier-crawl-warc/"
+          - "s3a://commoncrawl-temp-eu-west-3/"
   - id: "status"
     className: "com.digitalpebble.stormcrawler.urlfrontier.StatusUpdaterBolt"
     parallelism: 1
@@ -143,12 +143,12 @@ streams:
       args: ["url"]
       streamId: "status"
 
-  - from: "filespout"
-    to: "status"
-    grouping:
-      streamId: "status"
-      type: CUSTOM
-      customClass:
-        className: "com.digitalpebble.stormcrawler.util.URLStreamGrouping"
-        constructorArgs:
-          - "byDomain"
+#  - from: "filespout"
+#    to: "status"
+#    grouping:
+#      streamId: "status"
+#      type: CUSTOM
+#      customClass:
+#        className: "com.digitalpebble.stormcrawler.util.URLStreamGrouping"
+#       constructorArgs:
+#         - "byDomain"

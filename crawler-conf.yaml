@@ -40,11 +40,11 @@ config:
    - isSitemap
    - isFeed
 
-  http.agent.name: "Anonymous Coward"
-  http.agent.version: "1.0"
-  http.agent.description: "built with StormCrawler Archetype 1.18-SNAPSHOT"
-  http.agent.url: "http://someorganization.com/"
-  http.agent.email: "someone@someorganization.com"
+  http.agent.name: "StormCrawler"
+  http.agent.version: "2.1"
+  http.agent.description: "benchmark crawl to test URLFrontier on a large scale"
+  http.agent.url: "http://digitalpebble.com/"
+  http.agent.email: "julien@digitalpebble.com"
 
   http.store.headers: true
 
