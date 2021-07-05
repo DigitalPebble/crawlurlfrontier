@@ -20,7 +20,7 @@ java -cp ./target/crawlurlfrontier-1.0-SNAPSHOT.jar crawlercommons.urlfrontier.c
 before submitting the topology using the storm command:
 
 ``` sh
-storm jar target/crawlurlfrontier-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --env-filter crawler.flux
+storm jar target/crawlurlfrontier-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux crawler.flux --filter test.properties
 ```
 
 If the cluster is on Docker

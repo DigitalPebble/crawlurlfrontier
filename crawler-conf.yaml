@@ -19,7 +19,7 @@ config:
   topology.kryo.register:
     - com.digitalpebble.stormcrawler.Metadata
 
-  urlfrontier.host: 192.168.1.1
+  urlfrontier.host: ${masternode}
   urlfrontier.max.urls.per.bucket: 3
   urlfrontier.max.buckets: 200
 
@@ -107,7 +107,7 @@ config:
   - domain=domain
 
   # ES metricsConsumer
-  es.metrics.addresses: "http://192.168.1.1:9200"
+  es.metrics.addresses: "http://${masternode}:9200"
   es.metrics.index.name: "metrics"
 
   topology.metrics.consumer.register:
