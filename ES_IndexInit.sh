@@ -67,3 +67,6 @@ curl $ESCREDENTIALS -s -XPOST $ESHOST/_template/storm-metrics-template -H 'Conte
   }
 }'
 
+curl $ESCREDENTIALS -X PUT $ESHOST/metrics
+
+
