@@ -7,7 +7,7 @@
 config: 
   topology.workers: 4
   topology.message.timeout.secs: 300
-  topology.max.spout.pending: 500
+  topology.max.spout.pending: 600
   topology.debug: false
 
   fetcher.threads.number: 200
@@ -40,11 +40,7 @@ config:
    - isSitemap
    - isFeed
 
-  http.agent.name: "StormCrawler"
-  http.agent.version: "2.1"
-  http.agent.description: "benchmark crawl to test URLFrontier on a large scale"
-  http.agent.url: "http://digitalpebble.com/"
-  http.agent.email: "julien@digitalpebble.com"
+  http.agent: "CCBot/3.1 (https://commoncrawl.org/faq/; info@commoncrawl.org)"
 
   http.store.headers: true
 
@@ -58,6 +54,8 @@ config:
   # The fetched page will be trimmed to 65KB in this case
   # Set -1 to disable the limit.
   http.content.limit: 52428800
+  
+  urlbuffer.class: "com.digitalpebble.stormcrawler.persistence.urlbuffer.PriorityURLBuffer"
 
   # FetcherBolt queue dump => comment out to activate
   # if a file exists on the worker machine with the corresponding port number
@@ -81,14 +79,14 @@ config:
   fetchInterval.error: -1
 
   # text extraction for JSoupParserBolt
-  textextractor.include.pattern:
-   - DIV[id="maincontent"]
-   - DIV[itemprop="articleBody"]
-   - ARTICLE
+  # textextractor.include.pattern:
+  # - DIV[id="maincontent"]
+  # - DIV[itemprop="articleBody"]
+  # - ARTICLE
 
-  textextractor.exclude.tags:
-   - STYLE
-   - SCRIPT
+  # textextractor.exclude.tags:
+  # - STYLE
+  # - SCRIPT
 
   # custom fetch interval to be used when a document has the key/value in its metadata
   # and has been fetched successfully (value in minutes)
@@ -97,14 +95,14 @@ config:
 
   # configuration for the classes extending AbstractIndexerBolt
   # indexer.md.filter: "someKey=aValue"
-  indexer.url.fieldname: "url"
-  indexer.text.fieldname: "content"
-  indexer.canonical.name: "canonical"
-  indexer.md.mapping:
-  - parse.title=title
-  - parse.keywords=keywords
-  - parse.description=description
-  - domain=domain
+  # indexer.url.fieldname: "url"
+  # indexer.text.fieldname: "content"
+  # indexer.canonical.name: "canonical"
+  # indexer.md.mapping:
+  # - parse.title=title
+  # - parse.keywords=keywords
+  # - parse.description=description
+  # - domain=domain
 
   # ES metricsConsumer
   es.metrics.addresses: "http://${masternode}:9200"
