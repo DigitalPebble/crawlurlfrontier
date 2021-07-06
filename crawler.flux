@@ -9,9 +9,6 @@ includes:
       file: "crawler-conf.yaml"
       override: true
 
-config:
-  warc: {"fs.s3a.access.key": "${ENV-[AWS_ACCESS_KEY_ID]}", "fs.s3a.secret.key": "${ENV-[AWS_SECRET_ACCESS_KEY]}"}
-
 components:
   - id: "WARCFileNameFormat"
     className: "com.digitalpebble.stormcrawler.warc.WARCFileNameFormat"
@@ -91,7 +88,7 @@ bolts:
           - ref: "WARCInfo"
       - name: "withConfigKey"
         args:
-          - "warc"
+          - "awscreds"
       - name: "withFsUrl"
         args:
           - "s3a://commoncrawl-temp-eu-west-3/"

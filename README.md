@@ -2,10 +2,7 @@
 
 In the context of the Fed4Fire and NLNet fundings of URL Frontier.
 
-First set the credentials for AWS
-
-`export AWS_ACCESS_KEY_ID=...`
-`export AWS_SECRET_ACCESS_KEY=...`
+First set the credentials for AWS as well as the FQDN of the master node in a _test.properties_ files.
 
 ``` sh
 mvn clean package
