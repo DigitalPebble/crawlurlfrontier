@@ -26,7 +26,7 @@ components:
   - id: "WARCFileRotationPolicy"
     className: "org.apache.storm.hdfs.bolt.rotation.FileSizeRotationPolicy"
     constructorArgs:
-      - 50.0
+      - 1000.0
       - MB
 
   - id: "WARCInfo"
@@ -44,6 +44,10 @@ components:
         args:
          - "conformsTo"
          - "https://iipc.github.io/warc-specifications/specifications/warc-format/warc-1.0/"
+      - name: "put"
+        args:
+         - "description"
+         - "Crawl of the top 1M hostnames according to CommonCrawl's webgraphs with StormCrawler and URLFrontier"
 
 spouts:
   - id: "spout"
