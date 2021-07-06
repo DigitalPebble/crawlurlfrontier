@@ -62,6 +62,9 @@ bolts:
   - id: "partitioner"
     className: "com.digitalpebble.stormcrawler.bolt.URLPartitionerBolt"
     parallelism: 1
+  - id: "custommetrics"
+    className: "com.digitalpebble.stormcrawler.CustomMetricsReporterBolt"
+    parallelism: 1    
   - id: "fetcher"
     className: "com.digitalpebble.stormcrawler.bolt.FetcherBolt"
     parallelism: 1
@@ -97,6 +100,11 @@ bolts:
 
 streams:
   - from: "spout"
+    to: "custommetrics"
+    grouping:
+      type: LOCAL_OR_SHUFFLE
+
+  - from: "custommetrics"
     to: "partitioner"
     grouping:
       type: SHUFFLE

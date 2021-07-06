@@ -109,6 +109,7 @@ config:
   # ES metricsConsumer
   es.metrics.addresses: "http://${masternode}:9200"
   es.metrics.index.name: "metrics"
+  es.metrics.sniff: false
 
   topology.metrics.consumer.register:
        - class: "com.digitalpebble.stormcrawler.elasticsearch.metrics.MetricsConsumer"
