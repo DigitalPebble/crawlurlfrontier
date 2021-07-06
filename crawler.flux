@@ -48,7 +48,7 @@ components:
 spouts:
   - id: "spout"
     className: "com.digitalpebble.stormcrawler.urlfrontier.Spout"
-    parallelism: 1
+    parallelism: 4
 
 #  - id: "filespout"
 #    className: "com.digitalpebble.stormcrawler.spout.FileSpout"
@@ -61,19 +61,19 @@ spouts:
 bolts:
   - id: "partitioner"
     className: "com.digitalpebble.stormcrawler.bolt.URLPartitionerBolt"
-    parallelism: 1
+    parallelism: 4
   - id: "custommetrics"
     className: "com.digitalpebble.stormcrawler.CustomMetricsReporterBolt"
-    parallelism: 1    
+    parallelism: 4    
   - id: "fetcher"
     className: "com.digitalpebble.stormcrawler.bolt.FetcherBolt"
-    parallelism: 1
+    parallelism: 4
   - id: "parse"
     className: "com.digitalpebble.stormcrawler.bolt.JSoupParserBolt"
-    parallelism: 4
+    parallelism: 16
   - id: "warc"
     className: "com.digitalpebble.stormcrawler.warc.WARCHdfsBolt"
-    parallelism: 1
+    parallelism: 4
     configMethods:
       - name: "withFileNameFormat"
         args:
@@ -93,10 +93,10 @@ bolts:
           - "s3a://commoncrawl-temp-eu-west-3/"
   - id: "status"
     className: "com.digitalpebble.stormcrawler.urlfrontier.StatusUpdaterBolt"
-    parallelism: 1
+    parallelism: 4
   - id: "indexer"
     className: "com.digitalpebble.stormcrawler.indexing.DummyIndexer"
-    parallelism: 1
+    parallelism: 4
 
 streams:
   - from: "spout"
