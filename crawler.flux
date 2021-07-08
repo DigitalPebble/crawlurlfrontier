@@ -9,6 +9,9 @@ includes:
       file: "crawler-conf.yaml"
       override: true
 
+config:
+  awscreds: { "fs.s3a.fast.upload.buffer": "array", "fs.s3a.multipart.size": "100M", "fs.s3a.multipart.purge": "true", "fs.s3a.multipart.purge.age": "86400", "fs.s3a.access.key": "XXXX", "fs.s3a.secret.key": "YYYY" }
+
 components:
   - id: "WARCFileNameFormat"
     className: "com.digitalpebble.stormcrawler.warc.WARCFileNameFormat"
