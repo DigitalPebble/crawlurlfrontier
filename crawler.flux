@@ -52,32 +52,24 @@ components:
 spouts:
   - id: "spout"
     className: "com.digitalpebble.stormcrawler.urlfrontier.Spout"
-    parallelism: 4
-
-#  - id: "filespout"
-#    className: "com.digitalpebble.stormcrawler.spout.FileSpout"
-#    parallelism: 1
-#    constructorArgs:
-#      - "."
-#      - "top1M.hosts.commoncrawl"
-#      - true
+    parallelism: 10
 
 bolts:
   - id: "partitioner"
     className: "com.digitalpebble.stormcrawler.bolt.URLPartitionerBolt"
-    parallelism: 4
+    parallelism: 10
   - id: "custommetrics"
     className: "com.digitalpebble.stormcrawler.CustomMetricsReporterBolt"
-    parallelism: 4    
+    parallelism: 10    
   - id: "fetcher"
     className: "com.digitalpebble.stormcrawler.bolt.FetcherBolt"
-    parallelism: 4
+    parallelism: 10
   - id: "parse"
     className: "com.digitalpebble.stormcrawler.bolt.JSoupParserBolt"
-    parallelism: 16
+    parallelism: 30
   - id: "warc"
     className: "com.digitalpebble.stormcrawler.warc.WARCHdfsBolt"
-    parallelism: 4
+    parallelism: 10
     configMethods:
       - name: "withFileNameFormat"
         args:
@@ -97,10 +89,10 @@ bolts:
           - "s3a://commoncrawl-temp-eu-west-3/"
   - id: "status"
     className: "com.digitalpebble.stormcrawler.urlfrontier.StatusUpdaterBolt"
-    parallelism: 4
+    parallelism: 10
   - id: "indexer"
     className: "com.digitalpebble.stormcrawler.indexing.DummyIndexer"
-    parallelism: 4
+    parallelism: 10
 
 streams:
   - from: "spout"
@@ -154,13 +146,3 @@ streams:
       type: FIELDS
       args: ["url"]
       streamId: "status"
-
-#  - from: "filespout"
-#    to: "status"
-#    grouping:
-#      streamId: "status"
-#      type: CUSTOM
-#      customClass:
-#        className: "com.digitalpebble.stormcrawler.util.URLStreamGrouping"
-#       constructorArgs:
-#         - "byDomain"
