@@ -12,27 +12,27 @@ includes:
 spouts:
   - id: "spout"
     className: "com.digitalpebble.stormcrawler.urlfrontier.Spout"
-    parallelism: 4
+    parallelism: 10
 
 bolts:
   - id: "partitioner"
     className: "com.digitalpebble.stormcrawler.bolt.URLPartitionerBolt"
-    parallelism: 4
+    parallelism: 10
   - id: "custommetrics"
     className: "com.digitalpebble.stormcrawler.CustomMetricsReporterBolt"
-    parallelism: 4    
+    parallelism: 10    
   - id: "fetcher"
     className: "com.digitalpebble.stormcrawler.bolt.FetcherBolt"
-    parallelism: 4
+    parallelism: 10
   - id: "parse"
     className: "com.digitalpebble.stormcrawler.bolt.JSoupParserBolt"
-    parallelism: 16
+    parallelism: 30
   - id: "status"
     className: "com.digitalpebble.stormcrawler.urlfrontier.StatusUpdaterBolt"
-    parallelism: 4
+    parallelism: 10
   - id: "indexer"
     className: "com.digitalpebble.stormcrawler.indexing.DummyIndexer"
-    parallelism: 4
+    parallelism: 10
 
 streams:
   - from: "spout"

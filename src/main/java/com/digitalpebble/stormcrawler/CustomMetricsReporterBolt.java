@@ -38,6 +38,11 @@ public class CustomMetricsReporterBolt extends BaseRichBolt {
 			d = "0";
 
 		eventCounter.scope(d).incr();
+		
+		// seeing some beyond threshold - why?
+		if (Integer.parseInt(d) > 5) {
+			LOG.error("Above distance threshold of 5: {} - ", url, metadata.toString());
+		}
 
 		Values v = new Values(url, metadata);
 		collector.emit(input, v);
