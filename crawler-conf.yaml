@@ -18,6 +18,7 @@ config:
   # mandatory when using Flux
   topology.kryo.register:
     - com.digitalpebble.stormcrawler.Metadata
+    - com.digitalpebble.stormcrawler.persistence.Status
 
   urlfrontier.host: ${masternode}
   urlfrontier.max.urls.per.bucket: 3
@@ -40,9 +41,9 @@ config:
    - isSitemap
    - isFeed
 
-  http.agent: "CCBot/3.1 (https://commoncrawl.org/faq/; info@commoncrawl.org)"
+  http.agent: "StormCrawler"
 
-  http.store.headers: true
+  http.store.headers: false
 
   http.protocol.versions:
   - "http/1.1"
