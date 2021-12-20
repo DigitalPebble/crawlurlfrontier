@@ -19,6 +19,7 @@ config:
   topology.kryo.register:
     - com.digitalpebble.stormcrawler.Metadata
     - com.digitalpebble.stormcrawler.persistence.Status
+    - java.util.LinkedList
 
   urlfrontier.host: ${masternode}
   urlfrontier.max.urls.per.bucket: 3

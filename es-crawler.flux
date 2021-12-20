@@ -15,51 +15,62 @@ includes:
 
 spouts:
   - id: "spout"
-    className: "com.digitalpebble.stormcrawler.urlfrontier.Spout"
-    parallelism: 4
+    className: "com.digitalpebble.stormcrawler.elasticsearch.persistence.AggregationSpout"
+    parallelism: 10
+
+  - id: "filespout"
+    className: "com.digitalpebble.stormcrawler.spout.FileSpout"
+    parallelism: 1
+    constructorArgs:
+      - "."
+      - "seeds.txt"
+      - true
 
 bolts:
+  - id: "filter"
+    className: "com.digitalpebble.stormcrawler.bolt.URLFilterBolt"
+    parallelism: 1
   - id: "partitioner"
     className: "com.digitalpebble.stormcrawler.bolt.URLPartitionerBolt"
-    parallelism: 4
-  - id: "custommetrics"
-    className: "com.digitalpebble.stormcrawler.CustomMetricsReporterBolt"
-    parallelism: 4    
+    parallelism: 1
   - id: "fetcher"
     className: "com.digitalpebble.stormcrawler.bolt.FetcherBolt"
-    parallelism: 4
+    parallelism: 1
   - id: "sitemap"
     className: "com.digitalpebble.stormcrawler.bolt.SiteMapParserBolt"
-    parallelism: 4
+    parallelism: 1
   - id: "parse"
     className: "com.digitalpebble.stormcrawler.bolt.JSoupParserBolt"
-    parallelism: 16
+    parallelism: 1
   - id: "shunt"
     className: "com.digitalpebble.stormcrawler.tika.RedirectionBolt"
-    parallelism: 4 
+    parallelism: 1 
   - id: "tika"
     className: "com.digitalpebble.stormcrawler.tika.ParserBolt"
-    parallelism: 4
+    parallelism: 1
   - id: "index"
     className: "com.digitalpebble.stormcrawler.elasticsearch.bolt.IndexerBolt"
-    parallelism: 4
+    parallelism: 1
   - id: "status"
-    className: "com.digitalpebble.stormcrawler.urlfrontier.StatusUpdaterBolt"
-    parallelism: 4
+    className: "com.digitalpebble.stormcrawler.elasticsearch.persistence.StatusUpdaterBolt"
+    parallelism: 1
   - id: "deleter"
     className: "com.digitalpebble.stormcrawler.elasticsearch.bolt.DeletionBolt"
-    parallelism: 4
+    parallelism: 1
+  - id: "status_metrics"
+    className: "com.digitalpebble.stormcrawler.elasticsearch.metrics.StatusMetricsBolt"
+    parallelism: 1
 
 streams:
   - from: "spout"
-    to: "custommetrics"
-    grouping:
-      type: LOCAL_OR_SHUFFLE
-
-  - from: "custommetrics"
     to: "partitioner"
     grouping:
       type: SHUFFLE
+      
+  - from: "spout"
+    to: "status_metrics"
+    grouping:
+      type: SHUFFLE     
 
   - from: "partitioner"
     to: "fetcher"
@@ -132,6 +143,23 @@ streams:
       type: FIELDS
       args: ["url"]
       streamId: "status"
+
+  - from: "filespout"
+    to: "filter"
+    grouping:
+      type: FIELDS
+      args: ["url"]
+      streamId: "status"
+
+  - from: "filter"
+    to: "status"
+    grouping:
+      streamId: "status"
+      type: CUSTOM
+      customClass:
+        className: "com.digitalpebble.stormcrawler.util.URLStreamGrouping"
+        constructorArgs:
+          - "byDomain"
 
   - from: "status"
     to: "deleter"
