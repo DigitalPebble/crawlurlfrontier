@@ -105,17 +105,4 @@ config:
   # - parse.description=description
   # - domain=domain
 
-  # ES metricsConsumer
-  es.metrics.addresses: "http://${masternode}:9200"
-  es.metrics.index.name: "metrics"
-  es.metrics.sniff: false
-
-  topology.metrics.consumer.register:
-       - class: "com.digitalpebble.stormcrawler.elasticsearch.metrics.MetricsConsumer"
-         parallelism.hint: 5
-         #whitelist:
-         #  - "fetcher_counter"
-         #  - "fetcher_average.bytes_fetched"
-         #blacklist:
-         #  - "__receive.*"
 

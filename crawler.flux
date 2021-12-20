@@ -9,6 +9,10 @@ includes:
       file: "crawler-conf.yaml"
       override: true
 
+    - resource: false
+      file: "es-conf.yaml"
+      override: true
+
 spouts:
   - id: "spout"
     className: "com.digitalpebble.stormcrawler.urlfrontier.Spout"
@@ -23,15 +27,24 @@ bolts:
     parallelism: 10    
   - id: "fetcher"
     className: "com.digitalpebble.stormcrawler.bolt.FetcherBolt"
-    parallelism: 10
+    parallelism: 1
+  - id: "sitemap"
+    className: "com.digitalpebble.stormcrawler.bolt.SiteMapParserBolt"
+    parallelism: 1
   - id: "parse"
     className: "com.digitalpebble.stormcrawler.bolt.JSoupParserBolt"
-    parallelism: 30
+    parallelism: 1
+  - id: "shunt"
+    className: "com.digitalpebble.stormcrawler.tika.RedirectionBolt"
+    parallelism: 1 
+  - id: "tika"
+    className: "com.digitalpebble.stormcrawler.tika.ParserBolt"
+    parallelism: 1
+  - id: "index"
+    className: "com.digitalpebble.stormcrawler.elasticsearch.bolt.IndexerBolt"
+    parallelism: 1
   - id: "status"
     className: "com.digitalpebble.stormcrawler.urlfrontier.StatusUpdaterBolt"
-    parallelism: 10
-  - id: "indexer"
-    className: "com.digitalpebble.stormcrawler.indexing.DummyIndexer"
     parallelism: 10
 
 streams:
@@ -52,12 +65,33 @@ streams:
       args: ["key"]
 
   - from: "fetcher"
+    to: "sitemap"
+    grouping:
+      type: LOCAL_OR_SHUFFLE
+
+  - from: "sitemap"
     to: "parse"
     grouping:
       type: LOCAL_OR_SHUFFLE
 
   - from: "parse"
-    to: "indexer"
+    to: "shunt"
+    grouping:
+      type: LOCAL_OR_SHUFFLE
+
+  - from: "shunt"
+    to: "tika"
+    grouping:
+      type: LOCAL_OR_SHUFFLE
+      streamId: "tika"
+
+  - from: "tika"
+    to: "index"
+    grouping:
+      type: LOCAL_OR_SHUFFLE
+
+  - from: "shunt"
+    to: "index"
     grouping:
       type: LOCAL_OR_SHUFFLE
 
@@ -67,8 +101,8 @@ streams:
       type: FIELDS
       args: ["url"]
       streamId: "status"
-      
-  - from: "indexer"
+
+  - from: "sitemap"
     to: "status"
     grouping:
       type: FIELDS
@@ -82,3 +116,22 @@ streams:
       args: ["url"]
       streamId: "status"
 
+  - from: "tika"
+    to: "status"
+    grouping:
+      type: FIELDS
+      args: ["url"]
+      streamId: "status"
+
+  - from: "index"
+    to: "status"
+    grouping:
+      type: FIELDS
+      args: ["url"]
+      streamId: "status"
+
+  - from: "status"
+    to: "deleter"
+    grouping:
+      type: LOCAL_OR_SHUFFLE
+      streamId: "deletion"
