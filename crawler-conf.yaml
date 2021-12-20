@@ -5,7 +5,7 @@
 # This file does not contain all the key values but only the most frequently used ones. See crawler-default.xml for an extensive list.
 
 config: 
-  topology.workers: 10
+  topology.workers: 4
   topology.message.timeout.secs: 300
   topology.max.spout.pending: 600
   topology.debug: false
@@ -67,8 +67,6 @@ config:
   parsefilters.config.file: "parsefilters.json"
   urlfilters.config.file: "urlfilters.json"
 
-  jsoup.treat.non.html.as.error: false
-
   # revisit a page daily (value in minutes)
   # set it to -1 to never refetch a page
   fetchInterval.default: -1
@@ -79,16 +77,29 @@ config:
 
   # never revisit a page with an error (or set a value in minutes)
   fetchInterval.error: -1
+  
+  # set to true if you don't need any text to be extracted by JSoup
+  textextractor.no.text: false
 
   # text extraction for JSoupParserBolt
-  # textextractor.include.pattern:
-  # - DIV[id="maincontent"]
-  # - DIV[itemprop="articleBody"]
-  # - ARTICLE
+  textextractor.include.pattern:
+   - DIV[id="maincontent"]
+   - DIV[itemprop="articleBody"]
+   - ARTICLE
 
-  # textextractor.exclude.tags:
-  # - STYLE
-  # - SCRIPT
+  textextractor.exclude.tags:
+   - STYLE
+   - SCRIPT
+
+  # needed for parsing with Tika
+  jsoup.treat.non.html.as.error: false
+
+  # restrics the documents types to be parsed with Tika
+  parser.mimetype.whitelist:
+   - application/.+word.*
+   - application/.+excel.*
+   - application/.+powerpoint.*
+   - application/.*pdf.*
 
   # custom fetch interval to be used when a document has the key/value in its metadata
   # and has been fetched successfully (value in minutes)
@@ -97,13 +108,14 @@ config:
 
   # configuration for the classes extending AbstractIndexerBolt
   # indexer.md.filter: "someKey=aValue"
-  # indexer.url.fieldname: "url"
-  # indexer.text.fieldname: "content"
-  # indexer.canonical.name: "canonical"
-  # indexer.md.mapping:
-  # - parse.title=title
-  # - parse.keywords=keywords
-  # - parse.description=description
-  # - domain=domain
+  indexer.url.fieldname: "url"
+  indexer.text.fieldname: "content"
+  indexer.canonical.name: "canonical"
+  indexer.md.mapping:
+  - parse.title=title
+  - parse.keywords=keywords
+  - parse.description=description
+  - domain
+  - format
 
 
