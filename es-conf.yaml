@@ -9,7 +9,7 @@ config:
   # es.indexer.pipeline: "_PIPELINE_"
   es.indexer.create: false
   es.indexer.bulkActions: 100
-  es.indexer.flushInterval: "2s"
+  es.indexer.flushInterval: "1s"
   es.indexer.concurrentRequests: 1
   es.indexer.sniff: false
   
@@ -30,8 +30,8 @@ config:
   # also used for routing if the value above is set to true 
   es.status.routing.fieldname: "key"
   es.status.bulkActions: 500
-  es.status.flushInterval: "5s"
-  es.status.concurrentRequests: 1
+  es.status.flushInterval: "1s"
+  es.status.concurrentRequests: 4
   es.status.sniff: false
   
     # spout config #
@@ -52,8 +52,8 @@ config:
   # might be returned.
   spout.reset.fetchdate.after: 120
 
-  es.status.max.buckets: 50
-  es.status.max.urls.per.bucket: 2
+  es.status.max.buckets: 200
+  es.status.max.urls.per.bucket: 3
   # field to group the URLs into buckets
   es.status.bucket.field: "key"
   # fields to sort the URLs within a bucket
