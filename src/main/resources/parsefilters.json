@@ -8,6 +8,10 @@
        }
     },
     {
+      "class": "com.digitalpebble.stormcrawler.parse.filter.MimeTypeNormalization",
+      "name": "MimeTypeNormalization"
+    },
+    {
       "class": "com.digitalpebble.stormcrawler.parse.filter.DomainParseFilter",
       "name": "DomainParseFilter",
       "params": {
