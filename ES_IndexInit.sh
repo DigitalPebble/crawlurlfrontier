@@ -1,5 +1,5 @@
-ESHOST="http://localhost:9200"
-ESCREDENTIALS="-u elastic:passwordhere"
+ESHOST=${1:-"http://localhost:9200"}
+ESCREDENTIALS=${2:-"-u elastic:passwordhere"}
 
 # deletes and recreates a status index with a bespoke schema
 
@@ -16,7 +16,7 @@ curl $ESCREDENTIALS -s -XPUT $ESHOST/status -H 'Content-Type: application/json' 
 	"settings": {
 		"index": {
 			"number_of_shards": 10,
-			"number_of_replicas": 1,
+			"number_of_replicas": 0,
 			"refresh_interval": "5s"
 		}
 	},
@@ -134,7 +134,7 @@ curl $ESCREDENTIALS -s -XPUT $ESHOST/content -H 'Content-Type: application/json'
 	"settings": {
 		"index": {
 			"number_of_shards": 5,
-			"number_of_replicas": 1,
+			"number_of_replicas": 0,
 			"refresh_interval": "60s"
 		}
 	},
@@ -159,6 +159,11 @@ curl $ESCREDENTIALS -s -XPUT $ESHOST/content -H 'Content-Type: application/json'
 				},
 				"host": {
 					"type": "keyword",
+					"index": "true",
+					"store": true
+				},
+				"summary": {
+					"type": "text",
 					"index": "true",
 					"store": true
 				},
