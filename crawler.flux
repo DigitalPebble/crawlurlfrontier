@@ -15,12 +15,6 @@ spouts:
     parallelism: 1
 
 bolts:
-  - id: "partitioner"
-    className: "com.digitalpebble.stormcrawler.bolt.URLPartitionerBolt"
-    parallelism: 1
-  - id: "custommetrics"
-    className: "com.digitalpebble.stormcrawler.CustomMetricsReporterBolt"
-    parallelism: 1    
   - id: "fetcher"
     className: "com.digitalpebble.stormcrawler.bolt.FetcherBolt"
     parallelism: 1
@@ -45,12 +39,8 @@ bolts:
 
 streams:
   - from: "spout"
-    to: "custommetrics"
-    grouping:
-      type: LOCAL_OR_SHUFFLE
-
-  - from: "custommetrics"
     to: "fetcher"
+    grouping:
       type: LOCAL_OR_SHUFFLE
 
   - from: "fetcher"
@@ -88,23 +78,29 @@ streams:
     to: "status"
     grouping:
       type: LOCAL_OR_SHUFFLE
+      streamId: "status"
 
   - from: "sitemap"
     to: "status"
     grouping:
       type: LOCAL_OR_SHUFFLE
+      streamId: "status"
 
   - from: "parse"
     to: "status"
     grouping:
       type: LOCAL_OR_SHUFFLE
+      streamId: "status"
 
   - from: "tika"
     to: "status"
     grouping:
       type: LOCAL_OR_SHUFFLE
+      streamId: "status"
 
   - from: "index"
     to: "status"
     grouping:
       type: LOCAL_OR_SHUFFLE
+      streamId: "status"
+
