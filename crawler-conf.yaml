@@ -5,12 +5,12 @@
 # This file does not contain all the key values but only the most frequently used ones. See crawler-default.xml for an extensive list.
 
 config: 
-  topology.workers: 4
+  topology.workers: 1
   topology.message.timeout.secs: 300
-  topology.max.spout.pending: 600
+  topology.max.spout.pending: 100
   topology.debug: false
 
-  fetcher.threads.number: 200
+  fetcher.threads.number: 100
   
   # override the JVM parameters for the workers
   topology.worker.childopts: "-Xmx10g -Djava.net.preferIPv4Stack=true"
@@ -21,7 +21,7 @@ config:
     - com.digitalpebble.stormcrawler.persistence.Status
     - java.util.LinkedList
 
-  urlfrontier.host: ${masternode}
+  urlfrontier.host: localhost
   urlfrontier.max.urls.per.bucket: 3
   urlfrontier.max.buckets: 200
 

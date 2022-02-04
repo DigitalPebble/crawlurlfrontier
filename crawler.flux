@@ -9,46 +9,39 @@ includes:
       file: "crawler-conf.yaml"
       override: true
 
-    - resource: false
-      file: "es-conf.yaml"
-      override: true
-
 spouts:
   - id: "spout"
     className: "com.digitalpebble.stormcrawler.urlfrontier.Spout"
-    parallelism: 4
+    parallelism: 1
 
 bolts:
   - id: "partitioner"
     className: "com.digitalpebble.stormcrawler.bolt.URLPartitionerBolt"
-    parallelism: 4
+    parallelism: 1
   - id: "custommetrics"
     className: "com.digitalpebble.stormcrawler.CustomMetricsReporterBolt"
-    parallelism: 4    
+    parallelism: 1    
   - id: "fetcher"
     className: "com.digitalpebble.stormcrawler.bolt.FetcherBolt"
-    parallelism: 4
+    parallelism: 1
   - id: "sitemap"
     className: "com.digitalpebble.stormcrawler.bolt.SiteMapParserBolt"
-    parallelism: 4
+    parallelism: 1
   - id: "parse"
     className: "com.digitalpebble.stormcrawler.bolt.JSoupParserBolt"
-    parallelism: 16
+    parallelism: 4
   - id: "shunt"
     className: "com.digitalpebble.stormcrawler.tika.RedirectionBolt"
-    parallelism: 4 
+    parallelism: 1 
   - id: "tika"
     className: "com.digitalpebble.stormcrawler.tika.ParserBolt"
-    parallelism: 4
+    parallelism: 1
   - id: "index"
-    className: "com.digitalpebble.stormcrawler.elasticsearch.bolt.IndexerBolt"
-    parallelism: 4
+    className: "com.digitalpebble.stormcrawler.indexing.DummyIndexer"
+    parallelism: 1
   - id: "status"
     className: "com.digitalpebble.stormcrawler.urlfrontier.StatusUpdaterBolt"
-    parallelism: 4
-  - id: "deleter"
-    className: "com.digitalpebble.stormcrawler.elasticsearch.bolt.DeletionBolt"
-    parallelism: 4
+    parallelism: 1
 
 streams:
   - from: "spout"
@@ -57,15 +50,8 @@ streams:
       type: LOCAL_OR_SHUFFLE
 
   - from: "custommetrics"
-    to: "partitioner"
-    grouping:
-      type: SHUFFLE
-
-  - from: "partitioner"
     to: "fetcher"
-    grouping:
-      type: FIELDS
-      args: ["key"]
+      type: LOCAL_OR_SHUFFLE
 
   - from: "fetcher"
     to: "sitemap"
@@ -101,40 +87,24 @@ streams:
   - from: "fetcher"
     to: "status"
     grouping:
-      type: FIELDS
-      args: ["url"]
-      streamId: "status"
+      type: LOCAL_OR_SHUFFLE
 
   - from: "sitemap"
     to: "status"
     grouping:
-      type: FIELDS
-      args: ["url"]
-      streamId: "status"
+      type: LOCAL_OR_SHUFFLE
 
   - from: "parse"
     to: "status"
     grouping:
-      type: FIELDS
-      args: ["url"]
-      streamId: "status"
+      type: LOCAL_OR_SHUFFLE
 
   - from: "tika"
     to: "status"
     grouping:
-      type: FIELDS
-      args: ["url"]
-      streamId: "status"
+      type: LOCAL_OR_SHUFFLE
 
   - from: "index"
     to: "status"
     grouping:
-      type: FIELDS
-      args: ["url"]
-      streamId: "status"
-
-  - from: "status"
-    to: "deleter"
-    grouping:
       type: LOCAL_OR_SHUFFLE
-      streamId: "deletion"
