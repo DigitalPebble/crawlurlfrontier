@@ -1,10 +1,10 @@
 {
   "com.digitalpebble.stormcrawler.parse.ParseFilters": [
     {
-      "class": "com.digitalpebble.stormcrawler.parse.filter.LinkParseFilter",
+      "class": "com.digitalpebble.stormcrawler.jsoup.LinkParseFilter",
       "name": "LinkParseFilter",
       "params": {
-         "pattern": "//FRAME/@src"
+         "pattern": "frame[src]"
        }
     },
     {
