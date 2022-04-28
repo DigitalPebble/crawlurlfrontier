@@ -12,30 +12,30 @@ includes:
 spouts:
   - id: "spout"
     className: "com.digitalpebble.stormcrawler.urlfrontier.Spout"
-    parallelism: 1
+    parallelism: 3
 
 bolts:
   - id: "fetcher"
     className: "com.digitalpebble.stormcrawler.bolt.FetcherBolt"
-    parallelism: 1
+    parallelism: 3
   - id: "sitemap"
     className: "com.digitalpebble.stormcrawler.bolt.SiteMapParserBolt"
-    parallelism: 1
+    parallelism: 3
   - id: "parse"
     className: "com.digitalpebble.stormcrawler.bolt.JSoupParserBolt"
-    parallelism: 4
+    parallelism: 12
   - id: "shunt"
     className: "com.digitalpebble.stormcrawler.tika.RedirectionBolt"
-    parallelism: 1 
+    parallelism: 3
   - id: "tika"
     className: "com.digitalpebble.stormcrawler.tika.ParserBolt"
-    parallelism: 1
+    parallelism: 3
   - id: "index"
     className: "com.digitalpebble.stormcrawler.indexing.DummyIndexer"
-    parallelism: 1
+    parallelism: 3
   - id: "status"
     className: "com.digitalpebble.stormcrawler.urlfrontier.StatusUpdaterBolt"
-    parallelism: 1
+    parallelism: 3
 
 streams:
   - from: "spout"
