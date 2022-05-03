@@ -21,7 +21,11 @@ config:
     - com.digitalpebble.stormcrawler.persistence.Status
     - java.util.LinkedList
 
-  urlfrontier.host: localhost
+  urlfrontier.address:
+   - 10.2.32.143:7071
+   - 10.2.32.144:7071
+   - 10.2.32.159:7071
+
   urlfrontier.max.urls.per.bucket: 3
   urlfrontier.max.buckets: 200
 
