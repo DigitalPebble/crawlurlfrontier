@@ -5,15 +5,15 @@
 # This file does not contain all the key values but only the most frequently used ones. See crawler-default.xml for an extensive list.
 
 config: 
-  topology.workers: 3
+  topology.workers: 6
   topology.message.timeout.secs: 300
   topology.max.spout.pending: 1000
   topology.debug: false
 
-  fetcher.threads.number: 100
+  fetcher.threads.number: 200
   
   # override the JVM parameters for the workers
-  topology.worker.childopts: "-Xmx10g -Djava.net.preferIPv4Stack=true"
+  topology.worker.childopts: "-Xmx6g -Djava.net.preferIPv4Stack=true"
 
   # mandatory when using Flux
   topology.kryo.register:
@@ -22,9 +22,9 @@ config:
     - java.util.LinkedList
 
   urlfrontier.address:
-   - 10.2.32.143:7071
-   - 10.2.32.144:7071
-   - 10.2.32.159:7071
+    - 10.2.32.142
+    - 10.2.32.159 
+    - 10.2.32.204 
 
   urlfrontier.max.urls.per.bucket: 3
   urlfrontier.max.buckets: 200
@@ -46,7 +46,7 @@ config:
    - isSitemap
    - isFeed
 
-  http.agent: "StormCrawler"
+  http.agent: "StormCrawler+URLFrontier"
 
   http.store.headers: false
 
@@ -70,6 +70,7 @@ config:
 
   parsefilters.config.file: "parsefilters.json"
   urlfilters.config.file: "urlfilters.json"
+  jsoup.filters.config.file: "jsoupfilters.json"
 
   # revisit a page daily (value in minutes)
   # set it to -1 to never refetch a page

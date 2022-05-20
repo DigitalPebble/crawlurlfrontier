@@ -29,7 +29,7 @@ bolts:
     parallelism: 3
   - id: "tika"
     className: "com.digitalpebble.stormcrawler.tika.ParserBolt"
-    parallelism: 3
+    parallelism: 6
   - id: "index"
     className: "com.digitalpebble.stormcrawler.indexing.DummyIndexer"
     parallelism: 3

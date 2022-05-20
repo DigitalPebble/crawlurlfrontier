@@ -11,6 +11,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<stormcrawler.version>2.5-SNAPSHOT</stormcrawler.version>
+		<storm.version>2.4.0</storm.version>
 	</properties>
 
 	<build>
@@ -108,18 +109,18 @@
 		<dependency>
 			<groupId>org.apache.storm</groupId>
 			<artifactId>storm-client</artifactId>
-			<version>2.3.0</version>
+			<version>${storm.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.storm</groupId>
 			<artifactId>flux-core</artifactId>
-			<version>2.3.0</version>
+			<version>${storm.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.crawler-commons</groupId>
 			<artifactId>urlfrontier-client</artifactId>
-			<version>1.0</version>
+			<version>2.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.digitalpebble.stormcrawler</groupId>
@@ -131,32 +132,6 @@
 			<artifactId>storm-crawler-tika</artifactId>
 			<version>${stormcrawler.version}</version>
 		</dependency>
-
-
 	</dependencies>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-annotations</artifactId>
-				<version>2.9.8</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-core</artifactId>
-				<version>2.9.8</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-databind</artifactId>
-				<version>2.9.8</version>
-			</dependency>
-			<dependency>
-				<groupId>com.amazonaws</groupId>
-				<artifactId>aws-java-sdk-s3</artifactId>
-				<version>1.12.17</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 </project>
