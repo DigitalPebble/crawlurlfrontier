@@ -20,19 +20,19 @@ bolts:
     parallelism: 3
   - id: "sitemap"
     className: "com.digitalpebble.stormcrawler.bolt.SiteMapParserBolt"
-    parallelism: 3
+    parallelism: 6
   - id: "parse"
     className: "com.digitalpebble.stormcrawler.bolt.JSoupParserBolt"
     parallelism: 12
   - id: "shunt"
     className: "com.digitalpebble.stormcrawler.tika.RedirectionBolt"
-    parallelism: 3
+    parallelism: 6
   - id: "tika"
     className: "com.digitalpebble.stormcrawler.tika.ParserBolt"
     parallelism: 6
   - id: "index"
     className: "com.digitalpebble.stormcrawler.indexing.DummyIndexer"
-    parallelism: 3
+    parallelism: 6
   - id: "status"
     className: "com.digitalpebble.stormcrawler.urlfrontier.StatusUpdaterBolt"
     parallelism: 3
