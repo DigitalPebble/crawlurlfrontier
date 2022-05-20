@@ -15,9 +15,12 @@ spouts:
     parallelism: 3
 
 bolts:
+  - id: "partitioner"
+    className: "com.digitalpebble.stormcrawler.bolt.URLPartitionerBolt"
+    parallelism: 3
   - id: "fetcher"
     className: "com.digitalpebble.stormcrawler.bolt.FetcherBolt"
-    parallelism: 3
+    parallelism: 6
   - id: "sitemap"
     className: "com.digitalpebble.stormcrawler.bolt.SiteMapParserBolt"
     parallelism: 6
@@ -26,10 +29,10 @@ bolts:
     parallelism: 12
   - id: "shunt"
     className: "com.digitalpebble.stormcrawler.tika.RedirectionBolt"
-    parallelism: 6
+    parallelism: 12
   - id: "tika"
     className: "com.digitalpebble.stormcrawler.tika.ParserBolt"
-    parallelism: 6
+    parallelism: 12
   - id: "index"
     className: "com.digitalpebble.stormcrawler.indexing.DummyIndexer"
     parallelism: 6
@@ -39,9 +42,15 @@ bolts:
 
 streams:
   - from: "spout"
+    to: "partitioner"
+    grouping:
+      type: SHUFFLE
+
+  - from: "partitioner"
     to: "fetcher"
     grouping:
-      type: LOCAL_OR_SHUFFLE
+      type: FIELDS
+      args: ["key"]
 
   - from: "fetcher"
     to: "sitemap"
